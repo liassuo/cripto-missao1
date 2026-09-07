@@ -16,7 +16,7 @@ def main():
         print("  phi(%d) = %d (contagem) = %d (fórmula)" % (n, phi_contagem(n), phi(n)))
     print("  coprimos com 10:", [k for k in range(1, 11) if coprimos(k, 10)])
 
-    print("\ncasos do RSA:")
+    print("\nphi de um primo e de um produto de dois primos:")
     print("  phi(97) = 96 (primo: p-1)")
     print("  phi(61*53) =", phi_de_primos(61, 53), "= (61-1)*(53-1)")
 
@@ -29,7 +29,7 @@ def main():
     print("  7^12 mod 36 == 1?", teorema_euler(7, 36))
     print("  Fermat: 7^12 mod 13 == 1?", pequeno_teorema_fermat(7, 13))
 
-    print("\npor que o RSA fecha o ciclo:")
+    print("\nconsequência: a^(1 + k*phi(n)) = a (mod n)")
     p, q, e = 61, 53, 17
     n = p * q
     phi_n = phi_de_primos(p, q)
@@ -42,7 +42,7 @@ def main():
 
 
 def interativo():
-    n = ler_int("n = ", 1)
+    n = ler_int("n = ", 1, 10**12)
 
     print()
     print("  phi(%d) = %d" % (n, phi(n)))

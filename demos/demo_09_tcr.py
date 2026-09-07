@@ -13,16 +13,29 @@ from securedocs_math.tcr import tcr, tcr_passos, decompor
 def main():
     print("=== 9. TEOREMA CHINÊS DO RESTO ===\n")
 
-    print("problema de Sun Tzu: x = 2 (mod 3), x = 3 (mod 5), x = 2 (mod 7)")
-    for linha in tcr_passos([2, 3, 2], [3, 5, 7]):
+    modulos = [7, 11, 13]
+
+    print("x = 3 (mod 7), x = 4 (mod 11), x = 5 (mod 13):")
+    for linha in tcr_passos([3, 4, 5], modulos):
         print("  " + linha)
 
     print("\nida e volta (cada módulo é uma 'coordenada'):")
-    modulos = [3, 5, 7]
-    for x in (23, 50, 104):
+    for x in (54, 713, 1000):
         restos = decompor(x, modulos)
-        volta, N = tcr(restos, modulos)
-        print("  x = %3d -> restos %s -> tcr -> %d (mod %d)" % (x, restos, volta, N))
+        volta, M = tcr(restos, modulos)
+        print("  x = %4d -> restos %s -> tcr -> %d (mod %d)" % (x, restos, volta, M))
+
+    print("\ndá para somar e multiplicar direto nos restos:")
+    a, b = 23, 31
+    resto_a = decompor(a, modulos)
+    resto_b = decompor(b, modulos)
+    soma = [(x + y) % m for x, y, m in zip(resto_a, resto_b, modulos)]
+    produto = [(x * y) % m for x, y, m in zip(resto_a, resto_b, modulos)]
+    print("  a = %d -> %s" % (a, resto_a))
+    print("  b = %d -> %s" % (b, resto_b))
+    print("  soma nos restos    %s -> tcr -> %d (a + b = %d)" % (soma, tcr(soma, modulos)[0], a + b))
+    print("  produto nos restos %s -> tcr -> %d (a * b = %d)" % (produto, tcr(produto, modulos)[0], a * b))
+    print("  -> três contas pequenas no lugar de uma grande, e nenhuma passa de 13")
 
     print("\nmódulos não coprimos:")
     try:
@@ -30,7 +43,7 @@ def main():
     except ValueError as erro:
         print("  tcr([1, 2], [4, 6]) -> ValueError:", erro)
 
-    print("\nRSA-CRT: decifrar mod p e mod q e juntar com o TCR")
+    print("\ncom dois primos grandes: contas mod p e mod q, juntadas pelo TCR")
     p = gerar_primo(512)
     q = gerar_primo(512)
     n = p * q
@@ -72,7 +85,7 @@ def interativo():
         print("  não deu pra resolver:", erro)
         return
 
-    x, N = tcr(restos, modulos)
+    x, M = tcr(restos, modulos)
     print("\n  conferindo a solução:")
     for a, m in zip(restos, modulos):
         print("    %d mod %d = %d (queria %d)" % (x, m, x % m, a % m))

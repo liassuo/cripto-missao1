@@ -33,7 +33,6 @@ def main():
     print("\nmmc e coprimos:")
     print("  mmc(4, 6) =", mmc(4, 6))
     print("  coprimos(8, 9) =", coprimos(8, 9), "| coprimos(8, 12) =", coprimos(8, 12))
-    print("  e=65537 é coprimo com phi=3120?", coprimos(65537, 3120), "(condição do RSA)")
 
 
 def interativo():

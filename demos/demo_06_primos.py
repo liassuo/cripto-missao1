@@ -44,7 +44,7 @@ def interativo():
 
     print()
     print("  %d é primo? %s" % (n, eh_primo(n)))
-    if 2 <= n <= 10**14:
+    if 2 <= n <= 10**12:
         print("  fatoração: %s" % fatorar(n))
     print("  próximo primo depois de %d: %d" % (n, proximo_primo(n)))
 

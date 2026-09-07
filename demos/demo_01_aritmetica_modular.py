@@ -22,7 +22,7 @@ def main():
     a, b, n = 123456, 654321, 97
     print("  (a*b) mod n =", (a * b) % n)
     print("  ((a mod n)*(b mod n)) mod n =", mult_mod(mod(a, n), mod(b, n), n))
-    print("  -> o RSA nunca precisa guardar número maior que n^2")
+    print("  -> nunca precisa guardar número maior que n^2")
 
     print("\ntabela de Z_5 para *:")
     for i, linha in enumerate(tabela_mod(5, "*")):
@@ -52,10 +52,13 @@ def interativo():
         for i, linha in enumerate(tabela_mod(n, "*")):
             print("   ", i, "|", " ".join(str(v) for v in linha))
 
-    try:
-        print("\n  ordem de %d em Z_%d = %d" % (a, n, ordem_multiplicativa(a, n)))
-    except ValueError:
-        print("\n  %d não é coprimo com %d, então não tem ordem multiplicativa" % (a, n))
+    if n <= 100000:
+        try:
+            print("\n  ordem de %d em Z_%d = %d" % (a, n, ordem_multiplicativa(a, n)))
+        except ValueError:
+            print("\n  %d não é coprimo com %d, então não tem ordem multiplicativa" % (a, n))
+    else:
+        print("\n  (módulo grande: pulando a ordem multiplicativa)")
 
 
 if __name__ == "__main__":

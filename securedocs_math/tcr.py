@@ -17,39 +17,45 @@ def _validar(restos, modulos):
 
 
 def tcr(restos, modulos):
-    """Resolve x = a_i (mod n_i) e devolve (x, N), com N = produto dos módulos."""
+    """Resolve x = a_i (mod n_i) e devolve (x, M), com M = produto dos módulos."""
     _validar(restos, modulos)
-    N = 1
+    M = 1
     for m in modulos:
-        N *= m
+        M *= m
 
     x = 0
     for a_i, n_i in zip(restos, modulos):
         if n_i == 1:
             continue
-        N_i = N // n_i
-        M_i = inverso_multiplicativo(N_i, n_i)
-        x += a_i * N_i * M_i
-    return x % N, N
+        M_i = M // n_i
+        y_i = inverso_multiplicativo(M_i, n_i)
+        x += a_i * M_i * y_i
+    return x % M, M
 
 
 def tcr_passos(restos, modulos):
     _validar(restos, modulos)
-    N = 1
+    M = 1
     for m in modulos:
-        N *= m
-    passos = ["Sistema com %d congruências, N = %d" % (len(modulos), N)]
+        M *= m
+    passos = ["M = %s = %d" % (" * ".join(str(m) for m in modulos), M)]
     x = 0
-    for a_i, n_i in zip(restos, modulos):
+    termos = []
+    for i, (a_i, n_i) in enumerate(zip(restos, modulos), 1):
         if n_i == 1:
             passos.append("  x = %d (mod 1): não restringe nada, parcela = 0" % a_i)
             continue
-        N_i = N // n_i
-        M_i = inverso_multiplicativo(N_i, n_i)
-        parcela = a_i * N_i * M_i
-        passos.append("  x = %d (mod %d): N_i = %d, M_i = %d, parcela = %d" % (a_i, n_i, N_i, M_i, parcela))
-        x += parcela
-    passos.append("Soma = %d  ->  x = %d (mod %d)" % (x, x % N, N))
+        M_i = M // n_i
+        y_i = inverso_multiplicativo(M_i, n_i)
+        passos.append("  M_%d = %d / %d = %d, y_%d = %d (inverso de %d mod %d)"
+                      % (i, M, n_i, M_i, i, y_i, M_i, n_i))
+        x += a_i * M_i * y_i
+        termos.append((i, a_i, M_i, y_i))
+
+    # x = a_1*M_1*y_1 + ... (mod M)
+    passos.append("x = " + " + ".join("a_%d*M_%d*y_%d" % (i, i, i) for i, _, _, _ in termos))
+    passos.append("  = " + " + ".join("%d*%d*%d" % (a, mi, yi) for _, a, mi, yi in termos))
+    passos.append("  = %d  ->  x = %d (mod %d)" % (x, x % M, M))
     return passos
 
 

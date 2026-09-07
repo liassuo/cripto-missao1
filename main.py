@@ -14,8 +14,6 @@ import demo_07_phi_euler
 import demo_08_exponenciacao_modular
 import demo_09_tcr
 
-import demo_securedocs
-
 ALGORITMOS = [
     ("Aritmética modular", demo_01_aritmetica_modular),
     ("MDC", demo_02_mdc),
@@ -36,8 +34,7 @@ def mostrar_menu():
     print("=" * 58)
     for i, (nome, _) in enumerate(ALGORITMOS, 1):
         print("  %d - %s" % (i, nome))
-    print(" 10 - Prova de conceito: RSA (cifrar, assinar, atacar)")
-    print(" 11 - Rodar todas as demonstrações seguidas")
+    print(" 10 - Rodar todas as demonstrações seguidas")
     print("  0 - Sair")
 
 
@@ -72,8 +69,6 @@ def main():
         if escolha == "0":
             break
         elif escolha == "10":
-            escolher_modo("RSA", demo_securedocs)
-        elif escolha == "11":
             print()
             rodar_todas()
         elif escolha.isdigit() and 1 <= int(escolha) <= 9:

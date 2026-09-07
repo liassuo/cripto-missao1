@@ -14,7 +14,7 @@ def main():
     for linha in exp_mod_passos(7, 13, 11):
         print("  " + linha)
 
-    print("\nexemplo do RSA do livro: 4^13 mod 497 =", exp_mod(4, 13, 497))
+    print("\n4^13 mod 497 =", exp_mod(4, 13, 497))
 
     print("\ningênua O(e) x rápida O(log e):")
     base, n = 7, 1000003
@@ -28,7 +28,7 @@ def main():
         assert r1 == r2
         print("  e = %-8d ingênua %.3f s | rápida %.6f s" % (e, t1, t2))
 
-    print("\nexpoente de 65537 no RSA:")
+    print("\nexpoente com só dois bits em 1 (65537 = 2^16 + 1):")
     print("  7^65537 inteiro teria uns", int(65537 * 0.845), "dígitos")
     print("  exp_mod(7, 65537, 1000003) =", exp_mod(7, 65537, 1000003), "(na hora)")
 

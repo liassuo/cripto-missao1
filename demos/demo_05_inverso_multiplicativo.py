@@ -13,7 +13,7 @@ def main():
     for linha in inverso_passos(3, 11):
         print(linha)
 
-    print("\nchave privada do RSA do livro (p=61, q=53, phi=3120, e=17):")
+    print("\ncom números maiores:")
     for linha in inverso_passos(17, 3120):
         print(linha)
 
