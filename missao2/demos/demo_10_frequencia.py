@@ -22,7 +22,7 @@ def main():
     print("\nhistograma do contrato cifrado com César (k = 7):")
     for linha in histograma(cifrado, 30):
         print(linha)
-    print("o pico que devia estar no A está no H: H - A = 7 = a chave")
+    print("as maiores barras são L e H: o E e o A do português andaram 7 casas -> k = 7")
 
     print("\n--- substituição: 26! chaves, mas a frequência continua a mesma ---")
     cifrado = substituicao.cifrar(CONTRATO, substituicao.chave_aleatoria())

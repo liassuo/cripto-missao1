@@ -17,6 +17,7 @@ def ler_int(texto, minimo=None, maximo=None):
 def ler_texto(texto, padrao=""):
     valor = input(texto).strip()
     if not valor:
-        print("  (usando: %s)" % padrao)
+        if padrao:
+            print("  (usando: %s)" % padrao)
         return padrao
     return valor
