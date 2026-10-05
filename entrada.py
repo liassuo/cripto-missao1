@@ -12,3 +12,11 @@ def ler_int(texto, minimo=None, maximo=None):
             print("  no máximo %d" % maximo)
             continue
         return valor
+
+
+def ler_texto(texto, padrao=""):
+    valor = input(texto).strip()
+    if not valor:
+        print("  (usando: %s)" % padrao)
+        return padrao
+    return valor

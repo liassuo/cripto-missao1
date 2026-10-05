@@ -1,7 +1,9 @@
 import os
 import sys
 import time
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+MISSAO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, MISSAO)
+sys.path.insert(0, os.path.dirname(MISSAO))
 
 from entrada import ler_int
 from securedocs_math.mdc import divisores, mdc_ingenuo, mdc, mmc, coprimos

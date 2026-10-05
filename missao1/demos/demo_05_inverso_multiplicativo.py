@@ -1,6 +1,8 @@
 import os
 import sys
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+MISSAO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, MISSAO)
+sys.path.insert(0, os.path.dirname(MISSAO))
 
 from entrada import ler_int
 from securedocs_math.inverso_multiplicativo import (inverso_multiplicativo, tem_inverso,
