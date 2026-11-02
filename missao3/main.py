@@ -9,8 +9,8 @@ import demo_02_rc5
 import demo_03_aes
 import demo_04_modos
 import demo_05_experimento_arquivo
-import demo_06_comparacao
-import demo_07_documentos_roubados
+import demo_06_documentos_roubados
+import demo_07_comparacao
 import demo_08_entregar_chave
 
 ALGORITMOS_SIMETRICOS = [
@@ -22,8 +22,8 @@ ALGORITMOS_SIMETRICOS = [
 
 EXPERIMENTO = [
     ("Arquivo original -> AES -> cifrado -> AES -> original", demo_05_experimento_arquivo),
-    ("Comparação DES x RC5 x AES e a escolha", demo_06_comparacao),
-    ("Os documentos roubados: clássica x AES", demo_07_documentos_roubados),
+    ("Os documentos roubados: clássica x AES", demo_06_documentos_roubados),
+    ("Comparação DES x RC5 x AES e a escolha", demo_07_comparacao),
 ]
 
 DESCOBERTA = [

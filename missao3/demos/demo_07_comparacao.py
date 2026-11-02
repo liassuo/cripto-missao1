@@ -27,7 +27,7 @@ def forca_bruta(por_segundo):
 
 
 def main():
-    print("=== 6. COMPARAÇÃO: DES x RC5 x AES ===\n")
+    print("=== 7. COMPARAÇÃO: DES x RC5 x AES ===\n")
     tabela()
 
     print()

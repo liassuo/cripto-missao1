@@ -56,7 +56,7 @@ def roubo(documento, chave_vigenere):
 
 
 def main():
-    print("=== 7. OS DOCUMENTOS ROUBADOS: CLÁSSICA x AES ===\n")
+    print("=== 6. OS DOCUMENTOS ROUBADOS: CLÁSSICA x AES ===\n")
     print("o invasor copiou os arquivos do servidor. O que ele consegue ler?\n")
     roubo(CONTRATO, "TECHSECURE")
     print("\nconclusão: com AES, copiar o arquivo não adianta. O segredo agora é")
