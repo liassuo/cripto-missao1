@@ -14,9 +14,8 @@ def mostrar_rodadas(bloco, chave):
     cifra = des.Cifra(chave)
     print("bloco claro: %s   chave: %s" % (para_hex(bloco), para_hex(chave)))
     print("\nsubchaves (48 bits cada, saem da chave por PC-1, rotações e PC-2):")
-    for i, k in enumerate(cifra.chaves[:3], 1):
-        print("  K%-2d = %012X" % (i, k))
-    print("  ... (16 subchaves no total)")
+    for i in range(0, 16, 2):
+        print("  K%-2d = %012X     K%-2d = %012X" % (i + 1, cifra.chaves[i], i + 2, cifra.chaves[i + 1]))
 
     passos = []
     cifrado = cifra.cifrar_bloco(bloco, passos)
