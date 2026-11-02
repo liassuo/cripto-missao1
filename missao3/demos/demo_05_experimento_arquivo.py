@@ -9,7 +9,22 @@ from securedocs_simetrica import arquivo
 from securedocs_simetrica.blocos import para_hex
 from textos import CONTRATO
 
-PASTA = os.path.join(MISSAO, "experimento")
+def area_de_trabalho():
+    # pergunta ao Windows onde fica a Área de Trabalho (pode estar dentro do OneDrive)
+    try:
+        import ctypes
+        caminho = ctypes.create_unicode_buffer(260)
+        ctypes.windll.shell32.SHGetFolderPathW(None, 0x10, None, 0, caminho)   # 0x10 = Desktop
+        if os.path.isdir(caminho.value):
+            return caminho.value
+    except (AttributeError, OSError):
+        pass
+    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+    return desktop if os.path.isdir(desktop) else MISSAO
+
+
+# os arquivos do experimento ficam na Área de Trabalho para abrir na hora da apresentação
+PASTA = os.path.join(area_de_trabalho(), "SecureDocs_experimento")
 
 
 def mostrar_inicio(caminho, n=48):
@@ -50,7 +65,7 @@ def experimento(original):
     chave = arquivo.gerar_chave(256)
     arquivo.salvar_chave(caminho_chave, chave)
     print("1) chave AES-256 sorteada (secrets): %s" % para_hex(chave, 4))
-    print("   salva em %s\n" % os.path.relpath(caminho_chave, MISSAO))
+    print("   salva em %s\n" % caminho_chave)
 
     print("2) arquivo original -> AES -> arquivo cifrado")
     arquivo.cifrar_arquivo(original, cifrado, chave)
@@ -66,10 +81,11 @@ def experimento(original):
     conferir_com_openssl(cifrado, chave, original)
 
     print("\n4) o invasor copiou o .sdoc mas não tem a chave:")
+    with open(cifrado, "rb") as f:
+        roubado = f.read()
     try:
-        arquivo.decifrar_arquivo(cifrado, os.path.join(PASTA, "tentativa.bin"),
-                                 arquivo.gerar_chave(256))
-        print("   saiu lixo")
+        lixo = arquivo.decifrar_dados(roubado, arquivo.gerar_chave(256))
+        print("   chave errada -> saiu lixo: %s..." % para_hex(lixo[:16]))
     except ValueError as erro:
         print("   chave errada -> %s" % erro)
     return cifrado, chave
@@ -97,13 +113,18 @@ def main():
     except ValueError as erro:
         print("   %s" % erro)
 
+    print("\n(arquivos gerados em %s)" % PASTA)
+
 
 def interativo():
     caminho = ler_texto("caminho do arquivo (enter = contrato de exemplo): ")
     if not caminho:
         main()
         return
-    caminho = caminho.strip('"')
+    # ao arrastar o arquivo para o terminal, o Windows pode colocar aspas ou "& '...'"
+    if caminho.startswith("& "):
+        caminho = caminho[2:]
+    caminho = caminho.strip().strip('"').strip("'")
     if not os.path.isfile(caminho):
         print("arquivo não encontrado")
         return
