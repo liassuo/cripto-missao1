@@ -24,7 +24,7 @@ TECNICAS = [
     ("Cifra de Vigenère", demo_04_vigenere),
     ("Cifra de Hill", demo_05_hill),
     ("Transposição (colunar e cerca de trilhos)", demo_06_transposicao),
-    ("Cifras de fluxo (Vernam e gerador)", demo_07_fluxo),
+    ("Cifras de fluxo (síncrona e assíncrona)", demo_07_fluxo),
     ("A mensagem interceptada com cada técnica", demo_08_mensagem_interceptada),
 ]
 

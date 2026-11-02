@@ -24,6 +24,7 @@ def cifrar_com_todas(texto):
         ("Cerca de trilhos (3)", transposicao.cerca_cifrar(texto, 3)),
         ("Fluxo (semente 40213)", fluxo.para_hex(fluxo.cifrar(texto, 40213))[:36] + "..."),
         ("One-time pad", fluxo.vernam_cifrar(texto, chave_otp)),
+        ("Autochave (SEGREDO)", fluxo.autochave_cifrar(texto, "SEGREDO")),
     ]
 
 

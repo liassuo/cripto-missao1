@@ -52,3 +52,47 @@ def decifrar(cifrado, semente):
 
 def para_hex(dados):
     return dados.hex().upper()
+
+
+# ---------------------------------------------------------------- fluxo assíncrono
+# Na autochave a chave começa com a palavra e depois continua com o próprio
+# texto cifrado: K(i) = C(i - m). Como o fluxo de chave depende do que já foi
+# cifrado, a cifra é assíncrona (autossincronizante): se uma letra do cifrado se
+# perder, só as m letras seguintes saem erradas e depois a decifragem se acerta.
+
+def fluxo_autochave(cifrado, palavra):
+    k = texto_para_numeros(palavra)
+    c = texto_para_numeros(cifrado)
+    return numeros_para_texto(k + c)[:len(c)]
+
+
+def autochave_cifrar(texto, palavra):
+    p = texto_para_numeros(texto)
+    k = texto_para_numeros(palavra)
+    if not k:
+        raise ValueError("a palavra-chave precisa ter pelo menos uma letra")
+    m = len(k)
+    c = []
+    for i in range(len(p)):
+        if i < m:
+            chave = k[i]
+        else:
+            chave = c[i - m]
+        c.append(soma_mod(p[i], chave, N))
+    return numeros_para_texto(c)
+
+
+def autochave_decifrar(cifrado, palavra):
+    c = texto_para_numeros(cifrado)
+    k = texto_para_numeros(palavra)
+    if not k:
+        raise ValueError("a palavra-chave precisa ter pelo menos uma letra")
+    m = len(k)
+    p = []
+    for i in range(len(c)):
+        if i < m:
+            chave = k[i]
+        else:
+            chave = c[i - m]
+        p.append(mod(c[i] - chave, N))
+    return numeros_para_texto(p)
