@@ -1,5 +1,5 @@
 # DES - Data Encryption Standard (FIPS 46-3, 1977)
-# cifra de Feistel: bloco de 64 bits, chave de 64 bits (56 úteis + 8 de paridade),
+# estrutura de Feistel: bloco de 64 bits, chave de 64 bits (56 úteis + 8 de paridade),
 # 16 rodadas. Cada rodada: L(i) = R(i-1)  e  R(i) = L(i-1) xor f(R(i-1), K(i))
 
 from .blocos import bytes_para_int, int_para_bytes
@@ -144,37 +144,9 @@ class Cifra:
         return processar_bloco(bloco, self.chaves[::-1], passos)
 
 
-class CifraTripla:
-    # 3DES (EDE): C = E_K3(D_K2(E_K1(P))). Com K1 = K2 = K3 vira o DES comum.
-    nome = "3DES"
-    tamanho_bloco = TAMANHO_BLOCO
-
-    def __init__(self, chave):
-        if len(chave) == 16:
-            chave = chave + chave[:8]       # opção 2: K3 = K1 (112 bits)
-        if len(chave) != 24:
-            raise ValueError("a chave do 3DES tem 16 ou 24 bytes")
-        self.k1, self.k2, self.k3 = (Cifra(chave[i:i + 8]) for i in (0, 8, 16))
-
-    def cifrar_bloco(self, bloco):
-        return self.k3.cifrar_bloco(self.k2.decifrar_bloco(self.k1.cifrar_bloco(bloco)))
-
-    def decifrar_bloco(self, bloco):
-        return self.k1.decifrar_bloco(self.k2.cifrar_bloco(self.k3.decifrar_bloco(bloco)))
-
-
 def cifrar_bloco(bloco, chave):
     return Cifra(chave).cifrar_bloco(bloco)
 
 
 def decifrar_bloco(bloco, chave):
     return Cifra(chave).decifrar_bloco(bloco)
-
-
-def chave_com_paridade(chave):
-    # cada byte tem um número ímpar de bits 1 (o bit menos significativo ajusta)
-    return bytes((b & 0xFE) | (bin(b >> 1).count("1") % 2 == 0) for b in chave)
-
-
-# chaves fracas: geram 16 subchaves iguais, então cifrar duas vezes devolve o texto
-CHAVES_FRACAS = ["0101010101010101", "FEFEFEFEFEFEFEFE", "E0E0E0E0F1F1F1F1", "1F1F1F1F0E0E0E0E"]
