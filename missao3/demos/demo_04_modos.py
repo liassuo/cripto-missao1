@@ -28,9 +28,9 @@ def comparar(texto, cifra):
             print("  %s" % para_hex(b))
 
     print("\ndecifrando:")
-    print("  ECB: %s" % modos.decifrar_ecb(cifra, ecb).decode("utf-8")[:48])
-    print("  CBC: %s" % modos.decifrar_cbc(cifra, cbc, iv).decode("utf-8")[:48])
-    print("  CTR: %s" % modos.decifrar_ctr(cifra, ctr, nonce).decode("utf-8")[:48])
+    print("  ECB: %s" % modos.decifrar_ecb(cifra, ecb).decode("utf-8"))
+    print("  CBC: %s" % modos.decifrar_cbc(cifra, cbc, iv).decode("utf-8"))
+    print("  CTR: %s" % modos.decifrar_ctr(cifra, ctr, nonce).decode("utf-8"))
 
 
 def main():
@@ -48,7 +48,7 @@ def main():
     print("\nno ECB os 3 blocos iguais saem iguais: o invasor vê o padrão do documento")
     print("sem saber a chave. Por isso o SecureDocs usa CBC (com IV aleatório).")
 
-    print("\ncifrando o MESMO texto duas vezes:")
+    print("\ncifrando o MESMO texto duas vezes (com a mensagem \"SIM\"):")
     print("  ECB: %s / %s" % (para_hex(modos.cifrar_ecb(cifra, b"SIM")),
                               para_hex(modos.cifrar_ecb(cifra, b"SIM"))))
     print("  CBC: %s / %s" % (para_hex(modos.cifrar_cbc(cifra, b"SIM")[1]),
