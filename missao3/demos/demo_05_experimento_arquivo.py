@@ -36,24 +36,6 @@ def mostrar_inicio(caminho, n=48):
     print("  %-26s              | %s" % ("", texto))
 
 
-def conferir_com_openssl(cifrado, chave, original):
-    # prova extra: a biblioteca cryptography (OpenSSL) abre o arquivo que nós ciframos
-    try:
-        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-        from cryptography.hazmat.primitives import padding
-    except ImportError:
-        print("  (biblioteca cryptography não instalada, conferência pulada)")
-        return
-    with open(cifrado, "rb") as f:
-        conteudo = f.read()
-    d = Cipher(algorithms.AES(chave), modes.CBC(conteudo[6:22])).decryptor()
-    u = padding.PKCS7(128).unpadder()
-    dados = u.update(d.update(conteudo[22:]) + d.finalize()) + u.finalize()
-    with open(original, "rb") as f:
-        print("  OpenSSL decifrou o nosso arquivo e bateu com o original: %s"
-              % ("SIM" if dados == f.read() else "NÃO"))
-
-
 def experimento(original):
     os.makedirs(PASTA, exist_ok=True)
     nome = os.path.basename(original)
@@ -78,7 +60,6 @@ def experimento(original):
     mostrar_inicio(decifrado)
     print("\n   decifrado idêntico ao original, byte a byte? %s"
           % ("SIM" if arquivo.arquivos_iguais(original, decifrado) else "NÃO"))
-    conferir_com_openssl(cifrado, chave, original)
 
     print("\n4) o invasor copiou o .sdoc mas não tem a chave:")
     with open(cifrado, "rb") as f:
@@ -99,19 +80,7 @@ def main():
     original = os.path.join(PASTA, "contrato.txt")
     with open(original, "w", encoding="utf-8") as f:
         f.write(CONTRATO + "\n")
-    cifrado, chave = experimento(original)
-
-    print("\n5) e se o invasor alterar 1 byte do arquivo cifrado?")
-    with open(cifrado, "rb") as f:
-        conteudo = bytearray(f.read())
-    conteudo[22 + 20] ^= 0x01        # um bit do segundo bloco
-    try:
-        alterado = arquivo.decifrar_dados(bytes(conteudo), chave).decode("utf-8", "replace")
-        print("   %s..." % alterado[:70])
-        print("   o AES decifrou sem reclamar: o bloco ficou corrompido e o seguinte teve 1 bit")
-        print("   trocado. Sigilo não garante integridade - isso fica para a próxima missão (hash/MAC).")
-    except ValueError as erro:
-        print("   %s" % erro)
+    experimento(original)
 
     print("\n(arquivos gerados em %s)" % PASTA)
 

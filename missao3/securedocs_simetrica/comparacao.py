@@ -7,8 +7,6 @@ CARACTERISTICAS = [
     # algoritmo, ano, autores, estrutura, bloco, chave, rodadas, situação hoje
     ("DES", 1977, "IBM / NBS (FIPS 46)", "Feistel", "64", "56", "16",
      "quebrado por força bruta (1998); retirado pelo NIST em 2005"),
-    ("3DES", 1998, "ANSI X9.52 / NIST", "Feistel (3 x DES)", "64", "112 ou 168", "48",
-     "lento e bloco pequeno (Sweet32); proibido pelo NIST desde 2024"),
     ("RC5", 1994, "Ronald Rivest (RSA)", "Feistel modificada (ARX)", "32, 64 ou 128", "0 a 2040",
      "0 a 255 (12 sugerido)", "sem padrão oficial; 12 rodadas vulneráveis a criptoanálise diferencial teórica"),
     ("AES", 2001, "Daemen e Rijmen (FIPS 197)", "substituição-permutação", "128",
@@ -16,8 +14,7 @@ CARACTERISTICAS = [
 ]
 
 # bits efetivos de segurança contra força bruta
-BITS_EFETIVOS = [("DES", 56), ("3DES (2 chaves)", 80), ("3DES (3 chaves)", 112),
-                 ("RC5-32/12/16", 128), ("AES-128", 128), ("AES-256", 256)]
+BITS_EFETIVOS = [("DES", 56), ("RC5-32/12/16", 128), ("AES-128", 128), ("AES-256", 256)]
 
 SEGUNDOS_POR_ANO = 365.25 * 24 * 3600
 
@@ -46,7 +43,6 @@ def cifras_padrao():
     # chaves aleatórias nos tamanhos usuais de cada algoritmo
     return [
         des.Cifra(chave_aleatoria(8)),
-        des.CifraTripla(chave_aleatoria(24)),
         rc5.Cifra(chave_aleatoria(16)),
         aes.Cifra(chave_aleatoria(16)),
         aes.Cifra(chave_aleatoria(32)),

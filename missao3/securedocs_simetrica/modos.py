@@ -1,6 +1,6 @@
 # Modos de operação: como usar uma cifra de bloco em mensagens de qualquer tamanho.
 # Funcionam com qualquer objeto que tenha tamanho_bloco, cifrar_bloco e
-# decifrar_bloco (DES, 3DES, RC5 e AES desta biblioteca).
+# decifrar_bloco (DES, RC5 e AES desta biblioteca).
 
 from .blocos import xor_bytes, dividir_blocos, pkcs7_preencher, pkcs7_remover, chave_aleatoria
 

@@ -47,7 +47,6 @@ def main():
 
     print("\nESCOLHA PARA O SECUREDOCS: AES-256 (modo CBC)")
     print("  - DES: chave de 56 bits cai por força bruta em horas;")
-    print("  - 3DES: seguro na chave, mas lento e com bloco de 64 bits (Sweet32);")
     print("  - RC5: rápido e flexível, mas não é padrão, teve patente até 2015 e quase")
     print("    nenhuma biblioteca ou hardware dá suporte;")
     print("  - AES: padrão do NIST desde 2001, bloco de 128 bits, chave de até 256 bits,")

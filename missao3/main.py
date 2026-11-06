@@ -14,7 +14,7 @@ import demo_07_comparacao
 import demo_08_entregar_chave
 
 ALGORITMOS_SIMETRICOS = [
-    ("DES (e 3DES)", demo_01_des),
+    ("DES", demo_01_des),
     ("RC5", demo_02_rc5),
     ("AES", demo_03_aes),
     ("Modos de operação (ECB, CBC, CTR)", demo_04_modos),
@@ -31,7 +31,6 @@ DESCOBERTA = [
 ]
 
 ALGORITMOS = ALGORITMOS_SIMETRICOS + EXPERIMENTO + DESCOBERTA
-TODAS = len(ALGORITMOS) + 1
 
 
 def mostrar_menu():
@@ -49,7 +48,6 @@ def mostrar_menu():
             print(" %2d - %s" % (i, nome))
             i += 1
     print()
-    print(" %2d - Rodar todas as demonstrações seguidas" % TODAS)
     print("  0 - Sair")
 
 
@@ -67,12 +65,6 @@ def escolher_modo(nome, modulo):
         print("opção inválida")
 
 
-def rodar_todas():
-    for _, modulo in ALGORITMOS:
-        modulo.main()
-        print()
-
-
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")  # acentos no terminal do Windows
@@ -83,9 +75,6 @@ def main():
 
         if escolha == "0":
             break
-        elif escolha == str(TODAS):
-            print()
-            rodar_todas()
         elif escolha.isdigit() and 1 <= int(escolha) <= len(ALGORITMOS):
             nome, modulo = ALGORITMOS[int(escolha) - 1]
             escolher_modo(nome, modulo)
